@@ -15,27 +15,34 @@ public class StockServiceImpl implements StockService {
     StockRepository stockRepository;
 
     @Override
-    public List<Stock> getAllCategories() {
+    public List<Stock> getAllStocks() {
         return stockRepository.findAll();
     }
 
     @Override
-    public Stock createCategory(Stock stock) {
+    public Stock createStock(Stock stock) {
         return stockRepository.save(stock);
     }
 
     @Override
-    public Stock updateCategory(Long id,Stock stock) {
+    public Stock updateStock(Long id,Stock stock) {
+        Stock updatingstock = stockRepository.findById(id).orElse(null);
+        if(updatingstock!=null){
+            updatingstock.setStockName(stock.getStockName());
+            updatingstock.setDescription(stock.getDescription());
+            return stockRepository.save(updatingstock);
+        }
         return null;
+
     }
 
     @Override
-    public Stock getCategoryById(Long id) {
+    public Stock getStockById(Long id) {
         return stockRepository.findById(id).orElse(null);
     }
 
     @Override
-    public void deleteCategoryById(Long id) {
+    public void deleteStockById(Long id) {
         stockRepository.deleteById(id);
     }
     
