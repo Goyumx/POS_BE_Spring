@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
+import com.goyum.posBE.dto.StockReqDto;
 import com.goyum.posBE.entity.Stock;
 import com.goyum.posBE.service.StockService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,16 +39,20 @@ public class StockController {
         return ResponseEntity.status(201).body(createStock);
     } 
 
-    @PutMapping("path/{stockId}")
-    public String putMethodName(@PathVariable Long stockId, @RequestBody String entity) {
-        //TODO: process PUT request
-        
-        return entity;
+    @PutMapping("/stock/{stockId}")
+    public ResponseEntity<String> putMethodName(@PathVariable Long stockId, @RequestBody StockReqDto stockReqDto) {
+        Stock exsiStock = stockService.getStockById(stockId);
+        if (exsiStock!=null){
+            exsiStock.setStockName(stockReqDto.getStockName());
+            exsiStock.setDescription(stockReqDto.getDescription());
+        }
+        stockService.updateStock(stockId, exsiStock);
+        return ResponseEntity.status(200).body(null);
     }
 
     @DeleteMapping("/stock/{stockId}")
-    public ResponseEntity<String> deleteStock(@PathVariable Long stocktId) {
-        stockService.deleteStockById(stocktId);       
+    public ResponseEntity<String> deleteStock(@PathVariable Long stockId) {
+        stockService.deleteStockById(stockId);       
         return ResponseEntity.status(204).body("Stock Deleted");
     }
 }

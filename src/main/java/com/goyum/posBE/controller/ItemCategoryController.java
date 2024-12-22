@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.goyum.posBE.dto.ItemCategoryDto;
 import com.goyum.posBE.entity.ItemCategory;
 import com.goyum.posBE.service.ItemCategoryService;
 import org.springframework.http.ResponseEntity;
@@ -40,12 +41,12 @@ public class ItemCategoryController {
 
     
     @PutMapping("/category/{categoryId}")
-    public ResponseEntity<ItemCategory> putMethodName(@PathVariable Long categoryId, @RequestBody ItemCategory itemcategory) {      
+    public ResponseEntity<ItemCategory> putMethodName(@PathVariable Long categoryId, @RequestBody ItemCategoryDto itemcategory) {      
         ItemCategory searchedCategory = itemCategoryService.getCategoryById(categoryId);
         if(searchedCategory!=null){
             searchedCategory.setCategoryName(itemcategory.getCategoryName());
         }
-        searchedCategory =itemCategoryService.updateCategory(categoryId, itemcategory);
+        itemCategoryService.updateCategory(categoryId, itemcategory);
         return ResponseEntity.status(200).body(searchedCategory);
     }
     
