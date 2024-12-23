@@ -2,6 +2,8 @@ package com.goyum.posBE.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,4 +43,8 @@ public class Item {
         joinColumns = @JoinColumn(name = "stockId"),
         inverseJoinColumns = @JoinColumn(name = "itemId"))
     private List<Stock> stocks;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "purchasedItems")
+    private List<Purchase> purchasList; 
 }
